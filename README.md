@@ -8,7 +8,7 @@ Requirements:
 
 Startup:  
 Shell 1 (RabbitMQ server):   
-    /usr/local/sbin/rabbitmq-server  
+	/usr/local/sbin/rabbitmq-server  
 
 Shell 2 (Web service to accept ingestion tasks):  
     cd <project root>/ingest-demo/producer  
