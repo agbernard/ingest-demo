@@ -32,11 +32,12 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>ingest-demo-workers</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
+					<finalName>ingest-demo-workers</finalName>
+					<appendAssemblyId>false</appendAssemblyId>
 					<archive>
 						<manifest>
 							<mainClass>com.agbdev.ingestdemo.worker.IngestionWorker</mainClass>
