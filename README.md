@@ -8,20 +8,20 @@ Requirements:
 
 Startup:  
 Shell 1 (RabbitMQ server):   
-  /usr/local/sbin/rabbitmq-server  
+    /usr/local/sbin/rabbitmq-server  
 
 Shell 2 (Web service to accept ingestion tasks):  
-  cd <project root>/ingest-demo/producer  
-  mvn jetty:run   
+    cd <project root>/ingest-demo/producer  
+    mvn jetty:run   
 
 Shell 3 (Workers to process ingestion tasks):  
-  cd <project root>/ingest-demo/workers  
-  mvn clean compile assembly:simple  
-  java -jar target/ingest-demo-workers.jar  
+    cd <project root>/ingest-demo/workers  
+    mvn clean compile assembly:simple  
+    java -jar target/ingest-demo-workers.jar  
 
 Shell 4 (Web service to send content to workers):  
-  <needs implementing>  
+    <needs implementing>  
 
 Shell 5 (Use to send tasks):  
-  curl -H "Content-type: application/json" -X POST -d '{"supplierUrl": "myurl", "contentIds": ["1", "2"]}' http://localhost:8080/ingestion/tasks  
+    curl -H "Content-type: application/json" -X POST -d '{"supplierUrl": "myurl", "contentIds": ["1", "2"]}' http://localhost:8080/ingestion/tasks  
 
