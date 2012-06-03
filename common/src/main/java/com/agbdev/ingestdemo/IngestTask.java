@@ -29,6 +29,6 @@ public class IngestTask {
 
 	@Override
 	public String toString() {
-		return new Gson().toJson(this, String.class);
+		return new Gson().toJson(this);
 	}
 }

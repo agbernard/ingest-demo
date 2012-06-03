@@ -31,7 +31,9 @@ public class IngestTaskProducer {
 			addToQueue(task);
 		}
 		catch (IOException e) {
-			return Response.status(500).entity(e.getMessage()).build();
+			e.printStackTrace();
+			String errorMsg = String.format("Error adding the task to the queue: %s", e.getMessage());
+			return Response.status(500).entity(errorMsg).build();
 		}
 
 		String statusMsg = String.format("Ingest task has been queued: %s", task);
