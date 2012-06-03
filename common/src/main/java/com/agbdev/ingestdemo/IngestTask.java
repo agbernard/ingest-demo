@@ -1,6 +1,7 @@
-package com.agbdev.ingestdemo.producer;
+package com.agbdev.ingestdemo;
 
 import java.util.List;
+import com.google.gson.Gson;
 
 public class IngestTask {
 	private String supplierUrl;
@@ -22,8 +23,12 @@ public class IngestTask {
 		return contentIds;
 	}
 
+	public byte[] getBytes() {
+		return toString().getBytes();
+	}
+
 	@Override
 	public String toString() {
-		return String.format("{url: %s, contentIds: %s}", supplierUrl, contentIds);
+		return new Gson().toJson(this, String.class);
 	}
 }
