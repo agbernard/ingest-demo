@@ -1,5 +1,6 @@
 package com.agbdev.ingestdemo.worker;
 
+import static com.agbdev.ingestdemo.QueueProperties.QUEUE_HOST;
 import static com.agbdev.ingestdemo.QueueProperties.QUEUE_NAME;
 import java.io.IOException;
 import com.agbdev.ingestdemo.IngestTask;
@@ -24,7 +25,7 @@ public class IngestionWorker {
 	private QueueingConsumer initChannelConsumer()
 	throws IOException {
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setHost("localhost");
+		factory.setHost(QUEUE_HOST);
 		connection = factory.newConnection();
 		channel = connection.createChannel();
 
@@ -50,11 +51,13 @@ public class IngestionWorker {
 			channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
 
 			System.out.println("[x] Done");
+			System.out.println();
 		}
 	}
 
 	private void doIngestion(final IngestTask task) {
-		System.out.println("TODO: do ingestion");
+		System.out.println("TODO: get data from supplier: "+task.getSupplierUrl());
+		System.out.println("TODO: ingest data to db");
 	}
 
 	public void dispose()

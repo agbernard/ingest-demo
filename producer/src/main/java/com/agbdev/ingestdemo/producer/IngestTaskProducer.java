@@ -1,5 +1,6 @@
 package com.agbdev.ingestdemo.producer;
 
+import static com.agbdev.ingestdemo.QueueProperties.QUEUE_HOST;
 import static com.agbdev.ingestdemo.QueueProperties.QUEUE_NAME;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +29,7 @@ public class IngestTaskProducer {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response ingest(final IngestTask task) {
 		try {
-			addToQueue(task);
+			queueIngestionTask(task);
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -45,10 +46,10 @@ public class IngestTaskProducer {
 		return Response.status(201).entity(statusMsg).build();
 	}
 
-	private void addToQueue(final IngestTask task)
+	private void queueIngestionTask(final IngestTask task)
 	throws IOException {
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setHost("localhost");
+		factory.setHost(QUEUE_HOST);
 		Connection connection = null;
 		Channel channel = null;
 
