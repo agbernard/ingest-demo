@@ -2,7 +2,7 @@ ingest-demo
 ===========
 
 Requirements:  
-1. Maven
+1. Maven  
 2. RabbitMQ (http://www.rabbitmq.com/download.html)  
 3. After cloning the project, navigate to ingest-demo/common and run `mvn clean install`. The other projects will get built during the startup steps below.  
 
