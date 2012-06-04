@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.agbdev.ingestdemo</groupId>
-	<artifactId>producer</artifactId>
+	<artifactId>supplier</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>ingest-producer Jersey Webapp</name>
+	<name>Content Supplier</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -32,7 +32,7 @@
 				<configuration>
 					<scanIntervalSeconds>2</scanIntervalSeconds>
 					<stopKey>foo</stopKey>
-					<stopPort>9999</stopPort>
+					<stopPort>10000</stopPort>
 				</configuration>
 				<executions>
 					<execution>
@@ -60,11 +60,6 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>common</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-servlet</artifactId>
 			<version>${jersey.version}</version>
@@ -91,11 +86,6 @@
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.rabbitmq</groupId>
-			<artifactId>amqp-client</artifactId>
-			<version>2.8.2</version>
 		</dependency>
 	</dependencies>
 
