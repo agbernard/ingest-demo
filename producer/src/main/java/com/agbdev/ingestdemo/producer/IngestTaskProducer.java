@@ -10,7 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import com.agbdev.ingestdemo.IngestTask;
+import com.agbdev.ingestdemo.IngestBatch;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -27,9 +27,9 @@ public class IngestTaskProducer {
 	@POST
 	@Path("/tasks")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response ingest(final IngestTask task) {
+	public Response ingest(final IngestBatch batch) {
 		try {
-			queueIngestionTask(task);
+			queueIngestionBatch(batch);
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -37,7 +37,7 @@ public class IngestTaskProducer {
 			return Response.status(500).entity(errorMsg).build();
 		}
 
-		String statusMsg = String.format("Ingest task has been queued: %s", task);
+		String statusMsg = String.format("Ingest batch has been queued: %s", batch);
 		String msg = String.format("%s%sTriggered by: %s",
 						statusMsg,
 						System.getProperty("line.separator"),
@@ -46,7 +46,7 @@ public class IngestTaskProducer {
 		return Response.status(201).entity(statusMsg).build();
 	}
 
-	private void queueIngestionTask(final IngestTask task)
+	private void queueIngestionBatch(final IngestBatch batch)
 	throws IOException {
 		ConnectionFactory factory = new ConnectionFactory();
 		factory.setHost(QUEUE_HOST);
@@ -57,7 +57,7 @@ public class IngestTaskProducer {
 			connection = factory.newConnection();
 			channel = connection.createChannel();
 			channel.queueDeclare(QUEUE_NAME, false, false, false, null); //purposely non-durable just for the sake of the demo
-			channel.basicPublish("", QUEUE_NAME, MessageProperties.MINIMAL_BASIC, task.getBytes());
+			queueIngestionTasks(channel, batch);
 		}
 		finally {
 			if (channel != null) {
@@ -66,6 +66,14 @@ public class IngestTaskProducer {
 			if (connection != null) {
 				connection.close();
 			}
+		}
+	}
+
+	private void queueIngestionTasks(final Channel channel, final IngestBatch batch)
+	throws IOException {
+		for (String contentId : batch.getContentIds()) {
+			String contentUrl = String.format("%s/%s", batch.getSupplierUrl(), contentId);
+			channel.basicPublish("", QUEUE_NAME, MessageProperties.MINIMAL_BASIC, contentUrl.getBytes());
 		}
 	}
 }

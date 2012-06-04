@@ -3,7 +3,7 @@ package com.agbdev.ingestdemo;
 import java.util.List;
 import com.google.gson.Gson;
 
-public class IngestTask {
+public class IngestBatch {
 	private String supplierUrl;
 	private List<String> contentIds;
 

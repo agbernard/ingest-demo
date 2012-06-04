@@ -3,8 +3,11 @@ package com.agbdev.ingestdemo.worker;
 import static com.agbdev.ingestdemo.QueueProperties.QUEUE_HOST;
 import static com.agbdev.ingestdemo.QueueProperties.QUEUE_NAME;
 import java.io.IOException;
-import com.agbdev.ingestdemo.IngestTask;
-import com.google.gson.Gson;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import org.apache.commons.io.IOUtils;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -43,11 +46,10 @@ public class IngestionWorker {
 	throws ShutdownSignalException, ConsumerCancelledException, InterruptedException, IOException {
 		while (true) {
 			QueueingConsumer.Delivery delivery = consumer.nextDelivery();
-			String jsonString = new String(delivery.getBody());
-			System.out.println("[x] Received " + jsonString);
+			String contentUrl = new String(delivery.getBody());
+			System.out.println("[x] Received ingestion content supplier: " + contentUrl);
 
-			IngestTask task = new Gson().fromJson(jsonString, IngestTask.class);
-			doIngestion(task);
+			doIngestion(contentUrl);
 			channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
 
 			System.out.println("[x] Done");
@@ -55,9 +57,30 @@ public class IngestionWorker {
 		}
 	}
 
-	private void doIngestion(final IngestTask task) {
-		System.out.println("TODO: get data from supplier: "+task.getSupplierUrl());
+	private void doIngestion(final String contentUrl) {
+		String content = getContent(contentUrl);
+		System.out.println("Received content: "+content);
+
 		System.out.println("TODO: ingest data to db");
+	}
+
+	private String getContent(final String contentUrl) {
+		try {
+			URL url = new URL(contentUrl);
+			URLConnection con = url.openConnection();
+			InputStream in = con.getInputStream();
+			String encoding = con.getContentEncoding();
+			encoding = encoding == null ? "UTF-8" : encoding;
+			return IOUtils.toString(in, encoding);
+		}
+		catch (MalformedURLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
 	}
 
 	public void dispose()
