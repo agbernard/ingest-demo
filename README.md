@@ -4,7 +4,7 @@ ingest-demo
 Requirements:  
 1. Maven  
 2. RabbitMQ (http://www.rabbitmq.com/download.html)  
-3. After cloning the project, navigate to ingest-demo/common and run `mvn clean install`. The other projects will get built during the startup steps below.  
+3. After cloning the project, navigate to ingest-demo/common and run `mvn install`. The other projects will get built during the startup steps below.  
 
 
 Startup:  
@@ -20,8 +20,7 @@ Shell 2 (Web service to accept ingestion tasks):
 Shell 3 (Workers to process ingestion tasks):  
 
     cd <project root>/ingest-demo/workers  
-    mvn clean compile assembly:simple  
-    java -jar target/ingest-demo-workers.jar  
+    mvn compile exec:java -Dexec.mainClass="com.agbdev.ingestdemo.worker.IngestionWorker"
 
 Shell 4 (Web service to send content to workers):  
 
