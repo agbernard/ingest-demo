@@ -61,7 +61,7 @@ public class IngestionWorker {
 
 	private void doIngestion(final String contentUrl) {
 		String content = getContent(contentUrl);
-		Movie movie = new Gson().fromJson(content, Movie.class);
+		Movie movie = new Gson().fromJson(content, MovieTransport.class);
 		System.out.println("Received content: "+ movie);
 
 		System.out.println("TODO: ingest data to db");
