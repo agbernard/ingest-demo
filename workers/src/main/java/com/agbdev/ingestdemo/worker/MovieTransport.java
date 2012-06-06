@@ -1,17 +1,24 @@
 package com.agbdev.ingestdemo.worker;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
 import com.agbdev.ingestdemo.content.Movie;
 import com.google.gson.Gson;
 
-@SuppressWarnings("restriction")
-@XmlRootElement
+@Entity
+@Table(name="Movies")
 public class MovieTransport implements Movie {
 	private long id;
 	private String name;
 
 	public MovieTransport() {}
 
+	@Id
+	@GeneratedValue(generator="increment")
+	@GenericGenerator(name="increment", strategy = "increment")
 	public Long getId() {
 		return id;
 	}
