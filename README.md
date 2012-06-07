@@ -4,7 +4,7 @@ ingest-demo
 Requirements:  
 1. Java 1.5/1.7
 2. Maven  
-   1. Consider setting the following property in your .m2/settings.xml file to get rid of all those maven warnings:
+   * Consider setting the following property in your .m2/settings.xml file to get rid of all those maven warnings:
 
     ```xml
     <properties>
