@@ -11,6 +11,7 @@ Requirements:
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>	
     </properties>
     ```  
+
 3. RabbitMQ (http://www.rabbitmq.com/download.html)  
 4. After cloning the project, navigate to ingest-demo/common and run `mvn install`. The other projects will get built during the startup steps below.  
 
