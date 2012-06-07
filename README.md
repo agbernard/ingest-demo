@@ -2,7 +2,18 @@ ingest-demo
 ===========
 
 Requirements:  
+1. Java 1.7
+  1. Set JAVA_HOME appropriately
 1. Maven  
+  1. Set the following properties in your .m2/settings.xml file: 
+
+    ```xml
+    <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>	
+      <java7.home>/path/to/java7/home</java7.home>
+    </properties>
+    ```
+
 2. RabbitMQ (http://www.rabbitmq.com/download.html)  
 3. After cloning the project, navigate to ingest-demo/common and run `mvn install`. The other projects will get built during the startup steps below.  
 

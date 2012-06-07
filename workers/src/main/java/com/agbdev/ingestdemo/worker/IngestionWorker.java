@@ -4,7 +4,6 @@ import static com.agbdev.ingestdemo.QueueProperties.QUEUE_HOST;
 import static com.agbdev.ingestdemo.QueueProperties.QUEUE_NAME;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import org.apache.commons.io.IOUtils;
@@ -17,7 +16,8 @@ import com.rabbitmq.client.ConsumerCancelledException;
 import com.rabbitmq.client.QueueingConsumer;
 import com.rabbitmq.client.ShutdownSignalException;
 
-public class IngestionWorker {
+public class IngestionWorker
+implements AutoCloseable {
 	private Connection connection;
 	private Channel channel;
 
@@ -76,21 +76,19 @@ public class IngestionWorker {
 			encoding = encoding == null ? "UTF-8" : encoding;
 			return IOUtils.toString(in, encoding);
 		}
-		catch (MalformedURLException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-		catch (IOException e) {
+		catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
 
-	public void dispose()
-	throws IOException {
+	@Override
+	public void close()
+	throws Exception {
 		if (connection != null && !connection.isOpen()) {
 			connection.close();
 		}
+
 		if (channel != null && !channel.isOpen()) {
 			channel.close();
 		}
@@ -98,13 +96,9 @@ public class IngestionWorker {
 
 	public static void main(final String[] args)
 	throws Exception {
-		IngestionWorker worker = new IngestionWorker();
-		try {
+		try(IngestionWorker worker = new IngestionWorker()) {
 			worker.start();
 		}
-		finally {
-			worker.dispose();
-		}
-
 	}
+
 }
