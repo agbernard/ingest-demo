@@ -5,6 +5,7 @@ ingest-demo
 1. Java 1.5/1.7  
 2. RabbitMQ (http://www.rabbitmq.com/download.html)  
 3. Maven - consider setting the following property in your .m2/settings.xml file to get rid of all those maven warnings:
+
     ```xml
     <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>	
