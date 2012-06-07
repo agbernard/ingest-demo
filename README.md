@@ -2,7 +2,7 @@ ingest-demo
 ===========
 
 Requirements:  
-1. Java 1.5/1.7
+1. Java 1.5/1.7  
 2. Maven  
    * Consider setting the following property in your .m2/settings.xml file to get rid of all those maven warnings:
 
@@ -10,11 +10,9 @@ Requirements:
     <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>	
     </properties>
-    ```
-
+    ```  
 3. RabbitMQ (http://www.rabbitmq.com/download.html)  
 4. After cloning the project, navigate to ingest-demo/common and run `mvn install`. The other projects will get built during the startup steps below.  
-
 
 Startup:  
 Shell 1 (RabbitMQ server):   
