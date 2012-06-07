@@ -58,8 +58,8 @@
 					<target>1.7</target>
 					<showDeprecation>true</showDeprecation>
 					<showWarnings>true</showWarnings>
-					<executable>${java7.home}/bin/javac</executable>
-					<fork>true</fork>
+<!-- 					<executable>${java7.home}/bin/javac</executable> -->
+<!-- 					<fork>true</fork> -->
 				</configuration>
 			</plugin>
 			<plugin>
