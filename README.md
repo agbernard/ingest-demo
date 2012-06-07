@@ -1,9 +1,10 @@
 ingest-demo
 ===========
 
-Requirements:  
+###Requirements  
 1. Java 1.5/1.7  
-2. Maven  
+2. RabbitMQ (http://www.rabbitmq.com/download.html)  
+3. Maven  
    * Consider setting the following property in your .m2/settings.xml file to get rid of all those maven warnings:
 
     ```xml
@@ -12,10 +13,10 @@ Requirements:
     </properties>
     ```  
 
-3. RabbitMQ (http://www.rabbitmq.com/download.html)  
-4. After cloning the project, navigate to ingest-demo/common and run `mvn install`. The other projects will get built during the startup steps below.  
+###Setup  
+After cloning the project, navigate to ingest-demo/common and run `mvn install`. The other projects will get built during the startup steps below.  
 
-Startup:  
+###Startup  
 Shell 1 (RabbitMQ server):   
 
     /usr/local/sbin/rabbitmq-server  
