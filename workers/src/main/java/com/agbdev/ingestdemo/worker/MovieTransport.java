@@ -16,6 +16,7 @@ public class MovieTransport implements Movie {
 
 	public MovieTransport() {}
 
+	@Override
 	@Id
 	@GeneratedValue(generator="increment")
 	@GenericGenerator(name="increment", strategy = "increment")
@@ -23,14 +24,17 @@ public class MovieTransport implements Movie {
 		return id;
 	}
 
+	@Override
 	public void setId(final long id) {
 		this.id = id;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public void setName(final String name) {
 		this.name = name;
 	}
@@ -39,4 +43,5 @@ public class MovieTransport implements Movie {
 	public String toString() {
 		return new Gson().toJson(this);
 	}
+
 }

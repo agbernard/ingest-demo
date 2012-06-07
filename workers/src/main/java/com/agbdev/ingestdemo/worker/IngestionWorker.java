@@ -65,6 +65,8 @@ implements AutoCloseable {
 		System.out.println("Received content: "+ movie);
 
 		System.out.println("TODO: ingest data to db");
+		PersistenceUtil.persist(movie);
+		PersistenceUtil.list(MovieTransport.class);
 	}
 
 	private String getContent(final String contentUrl) {
