@@ -18,11 +18,11 @@ public class PersistenceUtil {
 
     public static void list(final Class<?> entityClass) {
     	EntityManager em = emf.createEntityManager();
-    	List<?> result = em.createQuery("from Movies", entityClass).getResultList();
+    	String query = "from " + entityClass.getName();
+    	List<?> result = em.createQuery(query, entityClass).getResultList();
     	for (Object obj : result) {
     	    System.out.println(obj);
     	}
-    	em.getTransaction().commit();
     	em.close();
     }
 }

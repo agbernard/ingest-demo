@@ -64,7 +64,7 @@ implements AutoCloseable {
 		Movie movie = new Gson().fromJson(content, MovieTransport.class);
 		System.out.println("Received content: "+ movie);
 
-		System.out.println("TODO: ingest data to db");
+		//TODO: need to persist OR update based on contentId; it is currently inserting a new row every time
 		PersistenceUtil.persist(movie);
 		PersistenceUtil.list(MovieTransport.class);
 	}
