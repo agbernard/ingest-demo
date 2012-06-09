@@ -3,6 +3,7 @@
 .project
 target
 *.class
+hsqldb/mydb*
 
 # Package Files #
 *.jar
