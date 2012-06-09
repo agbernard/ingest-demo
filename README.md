@@ -27,9 +27,9 @@ Shell 2 (Web service to accept ingestion tasks):
 
 Shell 3 (Workers to process ingestion tasks):  
 
-    export JAVA_HOME=/path/to/java7/home
+    export JAVA_HOME=/path/to/java7/home (if java 7 is not the default version)
     cd <project root>/ingest-demo/workers  
-    mvn compile exec:java -Dexec.mainClass="com.agbdev.ingestdemo.worker.IngestionWorker"
+    mvn compile exec:java
 
 Shell 4 (Web service to send content to workers):  
 
