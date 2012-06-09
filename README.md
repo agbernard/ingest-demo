@@ -16,9 +16,10 @@ ingest-demo
 After cloning the project, navigate to ingest-demo/common and run `mvn install`. The other projects will get built during the startup steps below.  
 
 ###Startup  
-Shell 1 (RabbitMQ server):   
+Shell 1 (RabbitMQ server, only needed if the server is not running as a daemon):  
 
-    /usr/local/sbin/rabbitmq-server  
+Mac: `/usr/local/sbin/rabbitmq-server`  
+Linux: `invoke-rc.d rabbitmq-server [start|stop]`  
 
 Shell 2 (HSqlDb):
 
