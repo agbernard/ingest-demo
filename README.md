@@ -11,11 +11,15 @@ As a content supplier, I want to call a service that will trigger the ingestion 
 4. Each worker will pick up a task from the queue in the order they were received. The specified content will be downloaded from the supplier's server with the appropriate data ingested into the database so the content can be distributed as needed.
 
 ###Implementation
-* The supplier will setup a service to deliver the content to ingest, modeled by `http://localhost:8081/content/...`. 
-* The supplier will POST a JSON payload to a service provided by the distributor, modeled by `http://localhost:8080/ingestion/tasks`. 
+* The supplier will setup a service to deliver the content to ingest, modeled by `http://localhost:8081/content/...`
+* The supplier will POST a JSON payload to a service provided by the distributor, modeled by `http://localhost:8080/ingestion/tasks`
+** Format of the JSON: `{"supplierUrl": "http://localhost:8081/content/movies", "contentIds": ["1", ...]}`
+** The distributor will act on each content ID by attaching it to the URL and calling a GET on it. For example `http://localhost:8081/content/movies/id1` should return the data for the content with id `1`. The format of that data isn't important for the purposes of this demo - that would be something agreed upon by the supplier and distributor.
 * The JSON posted to the distributor will be decomposed into individual tasks and added to a queue implemented using RabbitMQ. 
 * There will be another server with a pool of workers listening on the queue. When a task is taken from the queue the worker will be responsible for pulling down the data from the supplier, storing the content, and ingesting the appropriate data into the database. 
-* The DB used for the demo is HSQLDb, but it is accessed via JPA with Hibernate as the provider, so any of Hibernate's supported DB's would work. If you stick with HSQLDb, you don't have to download anything to run this demo - maven will handle it (see Server 2 below).
+* The DB used for the demo is HSQLDb, but don't worry about downloading it - maven will handle it (see Server 2 below).
+
+*insert diagram*
 
 ###Requirements  
 1. Java 1.5/1.7  
@@ -72,6 +76,8 @@ Feel free to add as many contentId's as you want.
 
 ###Evaluation
 TODO
-* talk about the cost/benefit of multiple servers
-* talk about the benfit of using JPA
-* talk about RabbitMQ
+* talk about the cost/benefit of multiple servers  
+* talk about RabbitMQ  
+
+*Benefits:*  
+* The code is purposely written to take advantage of JPA with Hibernate as the provider, so any of Hibernate's supported DB's would work. Even if the provider is changed, the code would not need to.
