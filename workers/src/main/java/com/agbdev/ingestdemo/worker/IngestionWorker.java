@@ -18,6 +18,7 @@ import com.rabbitmq.client.ShutdownSignalException;
 
 public class IngestionWorker
 implements AutoCloseable {
+	private final long id = Thread.currentThread().getId();
 	private Connection connection;
 	private Channel channel;
 
@@ -33,10 +34,7 @@ implements AutoCloseable {
 		factory.setHost(QUEUE_HOST);
 		connection = factory.newConnection();
 		channel = connection.createChannel();
-
 		channel.queueDeclare(QUEUE_NAME, false, false, false, null); // purposely non-durable just for the sake of the demo
-		System.out.println("[*] Waiting for messages. To exit press CTRL+C");
-
 		channel.basicQos(1);
 
 		QueueingConsumer consumer = new QueueingConsumer(channel);
@@ -47,6 +45,7 @@ implements AutoCloseable {
 	private void startExecutionLoop(final QueueingConsumer consumer)
 	throws ShutdownSignalException, ConsumerCancelledException, InterruptedException, IOException {
 		while (true) {
+			System.out.println(String.format("[*] Worker %d waiting for messages ...", id));
 			QueueingConsumer.Delivery delivery = consumer.nextDelivery();
 			String contentUrl = new String(delivery.getBody());
 			System.out.println("[x] Received ingestion content supplier: " + contentUrl);

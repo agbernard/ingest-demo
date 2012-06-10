@@ -54,7 +54,7 @@ Workers to process ingestion tasks:
 
     export JAVA_HOME=/path/to/java7/home (if Java 7 is not the default version)
     cd <project root>/ingest-demo/workers  
-    mvn compile exec:java
+    mvn compile exec:java -Dexec.args="n" (where n = an integer specifying the number of workers to start)
 
 Note: this is the only piece that actually requires Java 7, but there is not technical reason for it. It was used just to experiment with some [new features](http://www.theserverside.com/tutorial/Use-try-with-resources-Language-Enhancements-for-the-Java-7-OCPJP-Exam).
 
