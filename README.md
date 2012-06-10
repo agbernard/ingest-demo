@@ -82,6 +82,7 @@ Feel free to add as many contentId's as you want.
 TODO
 * talk about the cost/benefit of multiple servers  
 * talk about RabbitMQ  
+* talk about the decision to hide certain pieces behind REST calls
 
 **Benefits:**  
 * The code is purposely written to take advantage of [JPA](http://docs.oracle.com/javaee/5/tutorial/doc/bnbpz.html) with [Hibernate](http://www.hibernate.org) as the provider, so any of Hibernate's supported DB's would work. Even if the provider is changed, the code would not need to.
