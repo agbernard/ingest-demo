@@ -2,13 +2,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.agbdev.ingestdemo</groupId>
-	<artifactId>producer</artifactId>
+	<artifactId>distributor</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>ingest-producer Jersey Webapp</name>
+
+	<name>Content Distributor</name>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jersey.version>1.12</jersey.version>
 	</properties>
 

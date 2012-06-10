@@ -12,7 +12,7 @@ As a content supplier, I want to call a service that will trigger the ingestion 
 
 ###Implementation
 * The supplier will setup a service to deliver the content to ingest, modeled by `http://localhost:8081/content/...`
-* The supplier will POST a JSON payload to a service provided by the distributor, modeled by `http://localhost:8080/ingestion/tasks`
+* The supplier will POST a JSON payload to a service provided by the distributor, modeled by `http://localhost:8080/ingestion/tasks`  
   * Format of the JSON: `{"supplierUrl": "http://...", "contentIds": ["1", ...]}`
 * The JSON posted to the distributor will be decomposed into individual tasks and added to a queue implemented using RabbitMQ. 
 * There will be another server with a pool of workers listening on the queue. When a task is taken from the queue the worker will be responsible for pulling down the data from the supplier, storing the content, and ingesting the appropriate data into the database. 
