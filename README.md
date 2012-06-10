@@ -33,7 +33,7 @@ As a content supplier, I want to call a service that will trigger the ingestion 
     ```  
 
 ###Setup  
-After cloning the project, navigate to `ingest-demo/common` and run `mvn install`. The other projects will get built during the startup steps below. You'll need to run this anytime the common project is modified.
+After cloning the project, navigate to `ingest-demo/common` and run `mvn install`. The other projects will get built during the execution steps below. You'll need to run this anytime the common project is modified.
 
 ###Execution
 
@@ -74,7 +74,9 @@ Just for testing - once everything is running, you can use the following command
 
     curl -H "Content-type: application/json" -X POST -d '{"supplierUrl": "http://localhost:8081/content/movies", "contentIds": ["1", "2"]}' http://localhost:8080/ingestion/tasks  
 
-Feel free to add as many contentId's as you want.
+Feel free to add as many contentId's as you want.  
+  
+*Note*: to simulate this on a single machine, just open a new terminal for each server.  
 
 ###Evaluation
 TODO
