@@ -13,10 +13,10 @@ As a content supplier, I want to call a service that will trigger the ingestion 
 ###Implementation
 * The supplier will setup a service to deliver the content to ingest, modeled by `http://localhost:8081/content/...`
 * The supplier will POST a JSON payload to a service provided by the distributor, modeled by `http://localhost:8080/ingestion/tasks`
-  * Format of the JSON: `{"supplierUrl": "http://localhost:8081/content/movies", "contentIds": ["1", ...]}`
-  * The distributor will act on each content ID by attaching it to the URL and calling a GET on it. For example `http://localhost:8081/content/movies/id1` should return the data for the content with id `1`. The format of that data isn't important for the purposes of this demo - that would be something agreed upon by the supplier and distributor.
+  * Format of the JSON: `{"supplierUrl": "http://...", "contentIds": ["1", ...]}`
 * The JSON posted to the distributor will be decomposed into individual tasks and added to a queue implemented using RabbitMQ. 
 * There will be another server with a pool of workers listening on the queue. When a task is taken from the queue the worker will be responsible for pulling down the data from the supplier, storing the content, and ingesting the appropriate data into the database. 
+  * The worker will act on each content ID by attaching it to the URL and calling a GET on it. For example, if the supplier URL is `http://localhost:8081/content/movies`, then the worker for ID `1` will do a GET on `http://localhost:8081/content/movies/1` which should return the data for the movie with id `1`. The format of that data isn't important for the purposes of this demo - that would be something agreed upon by the supplier and distributor.
 * The DB used for the demo is HSQLDb, but don't worry about downloading it - maven will handle it (see Server 2 below).
 
 *insert diagram*
