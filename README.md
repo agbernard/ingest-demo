@@ -2,7 +2,7 @@ Content Ingestion Demo
 ===========
 
 ###Use Case
-As a content supplier, I want to call a service that will trigger the ingestion of new or updated content from a server of my choosing.  
+As a content supplier, I want to call a service that will trigger the ingestion of my new or updated content from a server of my choosing.  
 
 ###Design
 1. The content supplier will trigger the ingestion of their content via a REST service provided by the content distributor.  
@@ -17,7 +17,7 @@ As a content supplier, I want to call a service that will trigger the ingestion 
 * The JSON posted to the distributor will be decomposed into individual tasks and added to a queue implemented using RabbitMQ. 
 * There will be another server with a pool of workers listening on the queue. When a task is taken from the queue the worker will be responsible for pulling down the data from the supplier, storing the content, and ingesting the appropriate data into the database. 
   * The worker will act on each content ID by attaching it to the URL and calling a GET on it. For example, if the supplier URL is `http://localhost:8081/content/movies`, then the worker for ID `1` will do a GET on `http://localhost:8081/content/movies/1` which should return the data for the movie with id `1`. The format of that data isn't important for the purposes of this demo - that would be something agreed upon by the supplier and distributor.
-* The DB used for the demo is [HSQLDb](http://hsqldb.org/), but don't worry about downloading it - maven will handle it (see Server 2 below).
+* The DB used for the demo is [HSqlDb](http://hsqldb.org/), but don't worry about downloading it - maven will handle it (see Server 2 below).
 
 *insert diagram*
 
@@ -46,6 +46,7 @@ Linux: `invoke-rc.d rabbitmq-server start`
 ####Server 2 
 HSqlDb:  
 
+    cd <project root>/ingest-demo/hsqldb
     mvn exec:java
 
 ####Server 3 
@@ -61,10 +62,10 @@ Workers to process ingestion tasks:
     cd <project root>/ingest-demo/workers  
     mvn compile exec:java
 
-Note: this is the only piece that actually requires Java 7, but there is not technical reason for it. It was used just to [experiment with some new features](http://www.theserverside.com/tutorial/Use-try-with-resources-Language-Enhancements-for-the-Java-7-OCPJP-Exam).
+Note: this is the only piece that actually requires Java 7, but there is not technical reason for it. It was used just to experiment with some [new features](http://www.theserverside.com/tutorial/Use-try-with-resources-Language-Enhancements-for-the-Java-7-OCPJP-Exam).
 
 ####Server 5 
-Web service to send content to workers:  
+Web service to send content to the distributor:  
 
     cd <project root>/ingest-demo/supplier  
     mvn -Djetty.port=8081 jetty:run   
