@@ -23,8 +23,8 @@ As a content supplier, I want to call a service that will trigger the ingestion 
 
 ###Requirements  
 1. Java 1.5/[1.7](http://www.oracle.com/technetwork/java/javase/downloads/jdk-7u4-downloads-1591156.html)  
-2. RabbitMQ (http://www.rabbitmq.com/download.html)  
-3. Maven - consider setting the following property in your .m2/settings.xml file to get rid of all those maven warnings:
+2. [RabbitMQ](http://www.rabbitmq.com/download.html) (tested with version 2.8.2)
+3. Maven (tested with version 3.0.3)
 
     ```xml
     <properties>
@@ -33,9 +33,10 @@ As a content supplier, I want to call a service that will trigger the ingestion 
     ```  
 
 ###Setup  
-After cloning the project, navigate to ingest-demo/common and run `mvn install`. The other projects will get built during the startup steps below.  
+After cloning the project, navigate to `ingest-demo/common` and run `mvn install`. The other projects will get built during the startup steps below. You'll need to run this anytime the common project is modified.
 
-###Quick Start  
+###Execution
+
 ####Server 1 
 RabbitMQ server - you only need to manually start this if the server is not running as a daemon:  
 
@@ -60,7 +61,7 @@ Workers to process ingestion tasks:
     cd <project root>/ingest-demo/workers  
     mvn compile exec:java
 
-Note: this is the only piece that actually requires Java 7, but there is not technical reason for it. It was used just to [experiment with some new features](http://www.theserverside.com/tutorial/Use-try-with-resources-Language-Enhancements-for-the-Java-7-OCPJP-Exam)
+Note: this is the only piece that actually requires Java 7, but there is not technical reason for it. It was used just to [experiment with some new features](http://www.theserverside.com/tutorial/Use-try-with-resources-Language-Enhancements-for-the-Java-7-OCPJP-Exam).
 
 ####Server 5 
 Web service to send content to workers:  
@@ -68,7 +69,8 @@ Web service to send content to workers:
     cd <project root>/ingest-demo/supplier  
     mvn -Djetty.port=8081 jetty:run   
 
-Once everything is running, you can use the following command to see it in action:  
+####Server 6
+Just for testing - once everything is running, you can use the following command to see it in action:  
 
     curl -H "Content-type: application/json" -X POST -d '{"supplierUrl": "http://localhost:8081/content/movies", "contentIds": ["1", "2"]}' http://localhost:8080/ingestion/tasks  
 
