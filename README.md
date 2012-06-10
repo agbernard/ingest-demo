@@ -2,16 +2,20 @@ Content Ingestion Demo
 ===========
 
 ###Use Case
-As a content supplier, I want to call a service that will trigger the ingestion of new or updated content from a server of my choosing.
+As a content supplier, I want to call a service that will trigger the ingestion of new or updated content from a server of my choosing.  
 
 ###Design
-1. The content supplier will trigger the ingestion of their content via a REST service. 
+1. The content supplier will trigger the ingestion of their content via a REST service provided by the content distributor.  
 2. This REST service will create ingestion tasks for each piece of content passed from the supplier. 
 3. Each task will be added to a queue which will be monitored by a pool of workers.
-4. Each worker will pick up a task from the queue in the order they were received. The specified content will be downloaded from the supplier's server with the appropriate data ingested into the database so the content can be retrieved.
+4. Each worker will pick up a task from the queue in the order they were received. The specified content will be downloaded from the supplier's server with the appropriate data ingested into the database so the content can be distributed as needed.
 
 ###Implementation
-The supplier will setup a service to deliver the content to ingest. This will be modeled on `http://localhost:8081/content/...`. The supplier will POST a JSON payload to a service provided by the repository, modeled by `http://localhost:8080/ingestion/tasks`. That JSON will be decomposed into individual tasks and added to a queue which will be implemented using RabbitMQ. There will be another server with a pool of workers listening on the queue. When a task is taken from from the queue the worker will be responsible for pulling down the data from the supplier, storing the content, and ingesting the appropriate data into the database. The DB used for the demo is HSQLDb, but it is accessed via JPA with Hibernate as the provider, so any of Hibernate's supported DB's would work.
+* The supplier will setup a service to deliver the content to ingest, modeled by `http://localhost:8081/content/...`. 
+* The supplier will POST a JSON payload to a service provided by the distributor, modeled by `http://localhost:8080/ingestion/tasks`. 
+* The JSON posted to the distributor will be decomposed into individual tasks and added to a queue implemented using RabbitMQ. 
+* There will be another server with a pool of workers listening on the queue. When a task is taken from the queue the worker will be responsible for pulling down the data from the supplier, storing the content, and ingesting the appropriate data into the database. 
+* The DB used for the demo is HSQLDb, but it is accessed via JPA with Hibernate as the provider, so any of Hibernate's supported DB's would work. If you stick with HSQLDb, you don't have to download anything to run this demo - maven will handle it (see Server 2 below).
 
 ###Requirements  
 1. Java 1.5/1.7  
@@ -68,3 +72,6 @@ Feel free to add as many contentId's as you want.
 
 ###Evaluation
 TODO
+* talk about the cost/benefit of multiple servers
+* talk about the benfit of using JPA
+* talk about RabbitMQ
