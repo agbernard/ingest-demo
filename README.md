@@ -81,15 +81,17 @@ Note: to simulate this on a single machine, just open a new terminal for each se
 
 ###Evaluation
 
-**Architecture**
-The architecture laid out in this demo was designed to try and decouple functionality as much as possible. For example, Servers 1, 3, and 4 could all potentially be one project deployed to a single server. Obviously this would be a brittle design when it came time to optimizing the operation of the queue, task acceptance, and ingestion processing. The cost of this is that multiple servers have be maintained and performance could potentially suffer because of the overhead incurred from the servers communicating with each other to do their work.
+**Architecture**  
+The architecture laid out in this demo was designed to try and decouple functionality as much as possible. For example, Servers 1, 3, and 4 could all potentially be one project deployed to a single server. Obviously this would be a brittle design when it came time to optimizing the operation of the queue, task acceptance, and ingestion processing. The cost of this is that multiple servers have be maintained and there is overhead incurred from the servers communicating with each other to do their work. I would deem this to be acceptable costs for the scenario in question.
 
-REST was used purely because of familiarity - there was no technical reason to use that protocol over another. [Jersey](http://jersey.java.net) was chosen as a learning experience since the primary audience of this demo uses it.
+REST was used purely because of familiarity - there was no technical reason to use that model over another.  
+
+[Jersey](http://jersey.java.net) was chosen to implement the services as a learning experience since the primary audience of this demo uses it.
 
 **ORM**  
 * The code is purposely written to take advantage of [JPA](http://docs.oracle.com/javaee/5/tutorial/doc/bnbpz.html) with [Hibernate](http://www.hibernate.org) as the provider, so any of Hibernate's supported DB's would work. Even if the provider is changed, the code would not need to.
 
-**Messaging**
+**Messaging**  
 As can be seen from a [search on SO](http://stackoverflow.com/questions/731233/activemq-or-rabbitmq-or-zeromq-or/5350026#5350026), there are a plethora of messaging solutions for a variety of problems. RabbitMQ was chosen mainly because it is being used by the primary audience of this demo. With that in mind, let's look at some pros/cons of RabbitMQ specifically:
 * Pros:
   * Easy to setup and program to (i.e. very light learning curve assuming a prior understanding of some kind of [messaging architecture](http://en.wikipedia.org/wiki/Message-oriented_middleware)).
