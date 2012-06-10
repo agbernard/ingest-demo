@@ -23,14 +23,8 @@ As a content supplier, I want to call a service that will trigger the ingestion 
 
 ###Requirements  
 1. Java 1.5/[1.7](http://www.oracle.com/technetwork/java/javase/downloads/jdk-7u4-downloads-1591156.html)  
-2. [RabbitMQ](http://www.rabbitmq.com/download.html) (tested with version 2.8.2)
-3. Maven (tested with version 3.0.3)
-
-    ```xml
-    <properties>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>	
-    </properties>
-    ```  
+2. Maven (tested with version 3.0.3)
+3. [RabbitMQ](http://www.rabbitmq.com/download.html) (tested with version 2.8.2)
 
 ###Setup  
 After cloning the project, navigate to `ingest-demo/common` and run `mvn install`. The other projects will get built during the execution steps below. You'll need to run this anytime the common project is modified.
@@ -89,7 +83,7 @@ REST was used purely because of familiarity - there was no technical reason to u
 [Jersey](http://jersey.java.net) was chosen to implement the services as a learning experience since the primary audience of this demo uses it.
 
 **ORM**  
-* The code is purposely written to take advantage of [JPA](http://docs.oracle.com/javaee/5/tutorial/doc/bnbpz.html) with [Hibernate](http://www.hibernate.org) as the provider, so any of Hibernate's supported DB's would work. Even if the provider is changed, the code would not need to.
+The code is purposely written to take advantage of [JPA](http://docs.oracle.com/javaee/5/tutorial/doc/bnbpz.html) with [Hibernate](http://www.hibernate.org) as the provider, so any of Hibernate's supported DB's would work. Even if the provider is changed, the code would not need to.
 
 **Messaging**  
 As can be seen from a [search on SO](http://stackoverflow.com/questions/731233/activemq-or-rabbitmq-or-zeromq-or/5350026#5350026), there are a plethora of messaging solutions for a variety of problems. RabbitMQ was chosen mainly because it is being used by the primary audience of this demo. With that in mind, let's look at some pros/cons of RabbitMQ specifically:

@@ -22,22 +22,18 @@ public class ContentSupplier {
 
 		return new Movie() {
 
-			@Override
 			public void setName(final String name) {
 				// not needed
 			}
 
-			@Override
 			public void setId(final long id) {
 				// not needed
 			}
 
-			@Override
 			public String getName() {
 				return "Gladiator";
 			}
 
-			@Override
 			public Long getId() {
 				return contentId;
 			}

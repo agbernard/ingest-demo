@@ -35,7 +35,7 @@ implements AutoCloseable {
 		channel = connection.createChannel();
 
 		channel.queueDeclare(QUEUE_NAME, false, false, false, null); // purposely non-durable just for the sake of the demo
-		System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
+		System.out.println("[*] Waiting for messages. To exit press CTRL+C");
 
 		channel.basicQos(1);
 
