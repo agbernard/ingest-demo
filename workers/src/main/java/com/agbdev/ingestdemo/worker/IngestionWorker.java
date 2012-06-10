@@ -45,7 +45,7 @@ implements AutoCloseable {
 	private void startExecutionLoop(final QueueingConsumer consumer)
 	throws ShutdownSignalException, ConsumerCancelledException, InterruptedException, IOException {
 		while (true) {
-			System.out.println(String.format("[*] Worker %d waiting for messages ...", id));
+			System.out.println(String.format("[Worker %d] Waiting for messages ...", id));
 			QueueingConsumer.Delivery delivery = consumer.nextDelivery();
 			String contentUrl = new String(delivery.getBody());
 			System.out.println("[x] Received ingestion content supplier: " + contentUrl);
@@ -53,7 +53,7 @@ implements AutoCloseable {
 			doIngestion(contentUrl);
 			channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
 
-			System.out.println("[x] Done");
+			System.out.println(String.format("[Worker %d] Done", id));
 			System.out.println();
 		}
 	}
