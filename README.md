@@ -17,12 +17,12 @@ As a content supplier, I want to call a service that will trigger the ingestion 
 * The JSON posted to the distributor will be decomposed into individual tasks and added to a queue implemented using RabbitMQ. 
 * There will be another server with a pool of workers listening on the queue. When a task is taken from the queue the worker will be responsible for pulling down the data from the supplier, storing the content, and ingesting the appropriate data into the database. 
   * The worker will act on each content ID by attaching it to the URL and calling a GET on it. For example, if the supplier URL is `http://localhost:8081/content/movies`, then the worker for ID `1` will do a GET on `http://localhost:8081/content/movies/1` which should return the data for the movie with id `1`. The format of that data isn't important for the purposes of this demo - that would be something agreed upon by the supplier and distributor.
-* The DB used for the demo is HSQLDb, but don't worry about downloading it - maven will handle it (see Server 2 below).
+* The DB used for the demo is [HSQLDb](http://hsqldb.org/), but don't worry about downloading it - maven will handle it (see Server 2 below).
 
 *insert diagram*
 
 ###Requirements  
-1. Java 1.5/1.7  
+1. Java 1.5/[1.7](http://www.oracle.com/technetwork/java/javase/downloads/jdk-7u4-downloads-1591156.html)  
 2. RabbitMQ (http://www.rabbitmq.com/download.html)  
 3. Maven - consider setting the following property in your .m2/settings.xml file to get rid of all those maven warnings:
 
@@ -50,7 +50,7 @@ HSqlDb:
 ####Server 3 
 Startup the web service to accept ingestion tasks:  
 
-    cd <project root>/ingest-demo/producer  
+    cd <project root>/ingest-demo/distributor  
     mvn -Djetty.port=8080 jetty:run   
 
 ####Server 4 
@@ -79,5 +79,5 @@ TODO
 * talk about the cost/benefit of multiple servers  
 * talk about RabbitMQ  
 
-*Benefits:*  
-* The code is purposely written to take advantage of JPA with Hibernate as the provider, so any of Hibernate's supported DB's would work. Even if the provider is changed, the code would not need to.
+**Benefits:**  
+* The code is purposely written to take advantage of [JPA](http://docs.oracle.com/javaee/5/tutorial/doc/bnbpz.html) with [Hibernate](http://www.hibernate.org) as the provider, so any of Hibernate's supported DB's would work. Even if the provider is changed, the code would not need to.
