@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import org.apache.commons.io.IOUtils;
-import com.agbdev.ingestdemo.content.Movie;
+import com.agbdev.ingestdemo.IngestTask;
 import com.google.gson.Gson;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -47,10 +47,12 @@ implements AutoCloseable {
 		while (true) {
 			System.out.println(String.format("[Worker %d] Waiting for messages ...", id));
 			QueueingConsumer.Delivery delivery = consumer.nextDelivery();
-			String contentUrl = new String(delivery.getBody());
-			System.out.println("[x] Received ingestion content supplier: " + contentUrl);
+			String taskString = new String(delivery.getBody());
+			IngestTask task = new Gson().fromJson(taskString, IngestTask.class);
 
-			doIngestion(contentUrl);
+			System.out.println(String.format("[Worker %d] Received task: %s", id, taskString));
+
+			doIngestion(task);
 			channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
 
 			System.out.println(String.format("[Worker %d] Done", id));
@@ -58,14 +60,16 @@ implements AutoCloseable {
 		}
 	}
 
-	private void doIngestion(final String contentUrl) {
-		String content = getContent(contentUrl);
-		Movie movie = new Gson().fromJson(content, MovieTransport.class);
-		System.out.println("Received content: "+ movie);
+	private void doIngestion(final IngestTask task) {
+		String supplierContent = getContent(task.getContentUrl());
+
+		Class<?> transportClass = getTransportClass(task.getContentType());
+		Object content = new Gson().fromJson(supplierContent, transportClass);
+		System.out.println("Received content: "+ content);
 
 		//TODO: need to persist OR update based on contentId; it is currently inserting a new row every time
-		PersistenceUtil.persist(movie);
-		PersistenceUtil.list(MovieTransport.class);
+		PersistenceUtil.persist(content);
+		PersistenceUtil.list(transportClass);
 	}
 
 	private String getContent(final String contentUrl) {
@@ -83,6 +87,11 @@ implements AutoCloseable {
 		}
 	}
 
+	private Class<?> getTransportClass(final String contentType) {
+		ContentType type = ContentType.valueOf(contentType.toUpperCase());
+		return type.getTransportClass();
+	}
+
 	@Override
 	public void close()
 	throws Exception {
@@ -92,13 +101,6 @@ implements AutoCloseable {
 
 		if (channel != null && !channel.isOpen()) {
 			channel.close();
-		}
-	}
-
-	public static void main(final String[] args)
-	throws Exception {
-		try(IngestionWorker worker = new IngestionWorker()) {
-			worker.start();
 		}
 	}
 

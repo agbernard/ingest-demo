@@ -11,6 +11,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import com.agbdev.ingestdemo.IngestBatch;
+import com.agbdev.ingestdemo.IngestTask;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -72,8 +73,8 @@ public class IngestTaskProducer {
 	private void queueIngestionTasks(final Channel channel, final IngestBatch batch)
 	throws IOException {
 		for (String contentId : batch.getContentIds()) {
-			String contentUrl = String.format("%s/%s", batch.getSupplierUrl(), contentId);
-			channel.basicPublish("", QUEUE_NAME, MessageProperties.MINIMAL_BASIC, contentUrl.getBytes());
+			IngestTask task = new IngestTask(batch.getSupplierUrl(), contentId, batch.getContentType());
+			channel.basicPublish("", QUEUE_NAME, MessageProperties.MINIMAL_BASIC, task.getBytes());
 		}
 	}
 }

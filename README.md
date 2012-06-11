@@ -67,9 +67,9 @@ Web service to send content to the distributor:
 ####Server 6
 Just for testing - once everything is running, you can use the following command to see it in action:  
 
-    curl -H "Content-type: application/json" -X POST -d '{"supplierUrl": "http://localhost:8081/content/movies", "contentIds": ["1", "2"]}' http://localhost:8080/ingestion/tasks  
+    curl -H "Content-type: application/json" -X POST -d '{"supplierUrl": "http://localhost:8081/content/movies", "contentIds": ["1", "2"], "contentType":"movie"}' http://localhost:8080/ingestion/tasks  
 
-Feel free to add as many contentId's as you want.  
+Feel free to add as many contentId's as you want (the dummy data will just repeat itself).  
   
 Note: to simulate this on a single machine, just open a new terminal for each server.  
 

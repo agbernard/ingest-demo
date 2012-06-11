@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 public class IngestBatch {
 	private String supplierUrl;
 	private List<String> contentIds;
+	private String contentType;
 
 	public void setSupplierUrl(final String supplierUrl) {
 		this.supplierUrl = supplierUrl;
@@ -23,8 +24,12 @@ public class IngestBatch {
 		return contentIds;
 	}
 
-	public byte[] getBytes() {
-		return toString().getBytes();
+	public void setContentType(final String contentType) {
+		this.contentType = contentType;
+	}
+
+	public String getContentType() {
+		return contentType;
 	}
 
 	@Override
