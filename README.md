@@ -13,7 +13,7 @@ As a content supplier, I want to call a service that will trigger the ingestion 
 ###Implementation
 * The supplier will setup a service to deliver the content to ingest, modeled by `http://localhost:8081/content/...`
 * The supplier will POST a JSON payload to a service provided by the distributor, modeled by `http://localhost:8080/ingestion/tasks`  
-  * Format of the JSON: `{"supplierUrl": "http://...", "contentIds": ["1", ...]}`
+  * Format of the JSON: `{"supplierUrl": "http://...", "contentIds": ["1", ...], "contentType": ""}`
 * The JSON posted to the distributor will be decomposed into individual tasks and added to a queue implemented using RabbitMQ. 
 * There will be another server with a pool of workers listening on the queue. When a task is taken from the queue the worker will be responsible for pulling down the data from the supplier, storing the content, and ingesting the appropriate data into the database. 
   * The worker will act on each content ID by attaching it to the URL and calling a GET on it. For example, if the supplier URL is `http://localhost:8081/content/movies`, then the worker for ID `1` will do a GET on `http://localhost:8081/content/movies/1` which should return the data for the movie with id `1`. The format of that data isn't important for the purposes of this demo - that would be something agreed upon by the supplier and distributor.
@@ -56,7 +56,7 @@ Workers to process ingestion tasks:
     cd <project root>/ingest-demo/workers  
     mvn compile exec:java -Dexec.args="n" (where n = an integer specifying the number of workers to start)
 
-Note: this is the only piece that actually requires Java 7, but there is not technical reason for it. It was used just to experiment with some [new features](http://www.theserverside.com/tutorial/Use-try-with-resources-Language-Enhancements-for-the-Java-7-OCPJP-Exam).
+Note: this is the only piece that actually requires Java 7, but there is no technical reason for it. It was used just to experiment with some [new features](http://www.theserverside.com/tutorial/Use-try-with-resources-Language-Enhancements-for-the-Java-7-OCPJP-Exam).
 
 ####Server 5 
 Web service to send content to the distributor:  
@@ -76,7 +76,7 @@ Note: to simulate this on a single machine, just open a new terminal for each se
 ###Evaluation
 
 **Architecture**  
-The architecture laid out in this demo was designed to try and decouple functionality as much as possible. For example, Servers 1, 3, and 4 could all potentially be one project deployed to a single server. Obviously this would be a brittle design when it came time to optimizing the operation of the queue, task acceptance, and ingestion processing. The cost of this is that multiple servers have be maintained and there is overhead incurred from the servers communicating with each other to do their work. I would deem this to be acceptable costs for the scenario in question.
+The architecture laid out in this demo was designed to try and decouple functionality as much as possible. For example, Servers 1 through 4 could all potentially be one project deployed to a single server. Obviously this would be a brittle design when it came time to optimizing the operation of the queue, database, task acceptance, and ingestion processing. The cost of this is that multiple servers have be maintained and there is overhead incurred from the servers communicating with each other to do their work. I would deem this to be acceptable costs for the scenario in question.
 
 REST was used purely because of familiarity - there was no technical reason to use that model over another.  
 
