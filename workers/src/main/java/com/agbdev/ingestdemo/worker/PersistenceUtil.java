@@ -18,10 +18,12 @@ public class PersistenceUtil {
 
     public static void list(final Class<?> entityClass) {
     	EntityManager em = emf.createEntityManager();
-    	String query = "from " + entityClass.getName();
+    	String entity = entityClass.getName();
+    	String query = "from " + entity;
     	List<?> result = em.createQuery(query, entityClass).getResultList();
+    	System.out.println(String.format("Contents of %s:", entity));
     	for (Object obj : result) {
-    	    System.out.println(obj);
+    	    System.out.println("\t"+obj);
     	}
     	em.close();
     }
