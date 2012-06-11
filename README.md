@@ -44,9 +44,9 @@ HSqlDb:
     mvn exec:java
 
 ####Server 3 
-Startup the web service to accept ingestion tasks:  
+Startup the web service which will accept ingestion tasks and add them to the queue:  
 
-    cd <project root>/ingest-demo/distributor  
+    cd <project root>/ingest-demo/producer  
     mvn -Djetty.port=8080 jetty:run   
 
 ####Server 4 
