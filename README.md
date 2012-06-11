@@ -94,3 +94,8 @@ As can be seen from a [search on SO](http://stackoverflow.com/questions/731233/a
 * Cons:
   * Single point of failure
     * Single node creates a potential bottleneck
+
+**Stuff I didn't do because it's a quick and dirty demo**
+* Proper logging
+* Error handling
+* Unit tests
