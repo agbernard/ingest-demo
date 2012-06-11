@@ -25,7 +25,7 @@ As a content supplier, I want to call a service that will trigger the ingestion 
   * The worker will act on each content ID by attaching it to the URL and calling a GET on it. For example, if the supplier URL is `http://localhost:8081/content/movies`, then the worker for ID `1` will do a GET on `http://localhost:8081/content/movies/1` which should return the data for the movie with id `1`. The format of that data isn't important for the purposes of this demo - that would be something agreed upon by the supplier and distributor.
 * The DB used for the demo is [HSqlDb](http://hsqldb.org/), but don't worry about downloading it - maven will handle it (see Server 2 below).
 
-![Design Pic](/design.JPG)
+![Design Pic](/agbernard/ingest-demo/blob/master/design.JPG)
 
 ---
 
