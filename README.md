@@ -1,14 +1,20 @@
 Content Ingestion Demo
 ===========
 
+---
+
 ###Use Case
 As a content supplier, I want to call a service that will trigger the ingestion of my new or updated content into my distributor's ecosystem. The content will be supplied to my distributor from a server of my choosing.  
+
+---
 
 ###Design
 1. The content supplier will trigger the ingestion of their content via a REST service provided by the content distributor.  
 2. This REST service will create ingestion tasks for each piece of content passed from the supplier. 
 3. Each task will be added to a queue which will be monitored by a pool of workers.
 4. Each worker will pick up a task from the queue in the order they were received. The specified content will be downloaded from the supplier's server with the appropriate data ingested into the database so the content can be distributed as needed.
+
+---
 
 ###Implementation
 * The supplier will setup a service to deliver the content to ingest, modeled by `http://localhost:8081/content/...`
@@ -19,15 +25,17 @@ As a content supplier, I want to call a service that will trigger the ingestion 
   * The worker will act on each content ID by attaching it to the URL and calling a GET on it. For example, if the supplier URL is `http://localhost:8081/content/movies`, then the worker for ID `1` will do a GET on `http://localhost:8081/content/movies/1` which should return the data for the movie with id `1`. The format of that data isn't important for the purposes of this demo - that would be something agreed upon by the supplier and distributor.
 * The DB used for the demo is [HSqlDb](http://hsqldb.org/), but don't worry about downloading it - maven will handle it (see Server 2 below).
 
-*insert diagram*
+![Design Pic](design.JPG)
 
-###Requirements  
+---
+
+###Setup  
 1. Java 1.5/[1.7](http://www.oracle.com/technetwork/java/javase/downloads/jdk-7u4-downloads-1591156.html)  
 2. Maven (tested with version 3.0.3)
 3. [RabbitMQ](http://www.rabbitmq.com/download.html) (tested with version 2.8.2)
+4. After cloning the project, navigate to `ingest-demo/common` and run `mvn install`. The other projects will get built during the execution steps below. You'll need to run this anytime the common project is modified.
 
-###Setup  
-After cloning the project, navigate to `ingest-demo/common` and run `mvn install`. The other projects will get built during the execution steps below. You'll need to run this anytime the common project is modified.
+---
 
 ###Execution
 
@@ -73,6 +81,8 @@ Feel free to add as many contentId's as you want (the dummy data will just repea
   
 Note: to simulate this on a single machine, just open a new terminal for each server.  
 
+---
+
 ###Evaluation
 
 **Architecture**  
@@ -95,7 +105,8 @@ As can be seen from a [search on SO](http://stackoverflow.com/questions/731233/a
   * Single point of failure
     * Single node creates a potential bottleneck
 
-**Stuff I didn't do because it's a quick and dirty demo (with a self-imposed deadline):**
-* Proper logging
-* Error handling
-* Unit tests
+**Stuff I didn't do because it's a quick and dirty demo (with a self-imposed deadline):**  
+* Proper logging  
+* Error handling  
+* Unit tests  
+
