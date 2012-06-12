@@ -25,6 +25,8 @@ As a content supplier, I want to call a service that will trigger the ingestion 
   * The worker will act on each content ID by attaching it to the URL and calling a GET on it. For example, if the supplier URL is `http://localhost:8081/content/movies`, then the worker for ID `1` will do a GET on `http://localhost:8081/content/movies/1` which should return the data for the movie with id `1`. The format of that data isn't important for the purposes of this demo - that would be something agreed upon by the supplier and distributor.
 * The DB used for the demo is [HSqlDb](http://hsqldb.org/), but don't worry about downloading it - maven will handle it (see Server 2 below).
 
+Here is a diagram of the proposed implementation:  
+
 ![Design Pic](https://github.com/agbernard/ingest-demo/raw/master/ingest-demo-design.jpg)
 
 ---
@@ -77,7 +79,7 @@ Just for testing - once everything is running, you can use the following command
 
     curl -H "Content-type: application/json" -X POST -d '{"supplierUrl": "http://localhost:8081/content/movies", "contentIds": ["1", "2"], "contentType":"movie"}' http://localhost:8080/ingestion/tasks  
 
-Feel free to add as many contentId's as you want (the dummy data will just repeat itself).  
+Feel free to add as many (integer) contentId's as you want (the dummy data will just repeat itself).  
   
 Note: to simulate this on a single machine, just open a new terminal for each server.  
 
@@ -96,14 +98,14 @@ REST was used purely because of familiarity - there was no technical reason to u
 The code is purposely written to take advantage of [JPA](http://docs.oracle.com/javaee/5/tutorial/doc/bnbpz.html) with [Hibernate](http://www.hibernate.org) as the provider, so any of Hibernate's supported DB's would work. Even if the provider is changed, the code would not need to.
 
 **Messaging**  
-As can be seen from a [search on SO](http://stackoverflow.com/questions/731233/activemq-or-rabbitmq-or-zeromq-or/5350026#5350026), there are a plethora of messaging solutions for a variety of problems. RabbitMQ was chosen mainly because it is being used by the primary audience of this demo. With that in mind, let's look at some pros/cons of RabbitMQ specifically:
+As can be seen from a quick [search on SO](http://stackoverflow.com/questions/731233/activemq-or-rabbitmq-or-zeromq-or/5350026#5350026), there are a plethora of messaging solutions for a variety of problems. RabbitMQ was chosen mainly because it is being used by the primary audience of this demo. With that in mind, let's look at some pros/cons of RabbitMQ specifically:
 * Pros:
   * Easy to setup and program to (i.e. very light learning curve assuming a prior understanding of some kind of [messaging architecture](http://en.wikipedia.org/wiki/Message-oriented_middleware)).
   * [AMQP](http://www.amqp.org/) implementation
   * Durable messages
 * Cons:
-  * Single point of failure
-    * Single node creates a potential bottleneck
+  * Single point of failure ([clustering](http://www.rabbitmq.com/clustering.html) is available but I won't have time to evaluate if that would erase this disadvantage).
+  * Potential bottleneck depending on how many queues are up and how much traffic they must support.
 
 **Stuff I didn't do because of time constraints**:
 * Proper logging  
