@@ -105,8 +105,9 @@ As can be seen from a [search on SO](http://stackoverflow.com/questions/731233/a
   * Single point of failure
     * Single node creates a potential bottleneck
 
-**Stuff I didn't do because it's a quick and dirty demo (with a self-imposed deadline):**  
+**Stuff I didn't do because of time constraints**:
 * Proper logging  
 * Error handling  
 * Unit tests  
-
+* More extensive data modeling  
+* A wider variety of content types (although the design easily supports them)  
